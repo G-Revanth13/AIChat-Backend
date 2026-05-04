@@ -321,7 +321,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
                 "http://localhost:5173",
-                "https://aichatbot-frontend.onrender.com"
+                "https://aichat-frontend-e1iz.onrender.com"
             )
             .AllowAnyHeader()
             .AllowAnyMethod()
