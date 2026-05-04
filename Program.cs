@@ -288,10 +288,20 @@ builder.Services.Configure<MongoDbSettings>(options =>
 // ---------------- JWT CONFIG ----------------
 
 // Register strongly typed settings
-builder.Services.Configure<JwtSettings>(
-    builder.Configuration.GetSection("JwtSettings"));
+//builder.Services.Configure<JwtSettings>(
+//    builder.Configuration.GetSection("JwtSettings"));
 
-// Read secret (env first → fallback)
+//// Read secret (env first → fallback)
+//var jwtSecret =
+//    Environment.GetEnvironmentVariable("JWT_SECRET")
+//    ?? builder.Configuration["JwtSettings:Secret"];
+
+//if (string.IsNullOrEmpty(jwtSecret))
+//{
+//    throw new Exception("JWT Secret is missing");
+//}
+
+// ✅ FIXED: Unified JWT config — env var overrides appsettings for both generation & verification //claude ai 
 var jwtSecret =
     Environment.GetEnvironmentVariable("JWT_SECRET")
     ?? builder.Configuration["JwtSettings:Secret"];
@@ -300,6 +310,13 @@ if (string.IsNullOrEmpty(jwtSecret))
 {
     throw new Exception("JWT Secret is missing");
 }
+
+// Inject the resolved secret into JwtSettings so JwtService also gets the env var value
+builder.Services.Configure<JwtSettings>(options =>
+{
+    options.Secret = jwtSecret;
+    options.ExpiryMinutes = builder.Configuration.GetValue<int>("JwtSettings:ExpiryMinutes");
+});
 
 // Secure key
 var keyBytes = Encoding.UTF8.GetBytes(jwtSecret);
