@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- MongoDB (updated stable version) -->
+		<PackageReference Include="MongoDB.Driver" Version="3.8.0" />
+
+		<!-- Password hashing -->
+		<PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
+
+		<!-- JWT Authentication -->
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.5" />
+
+		<!-- Swagger (for API testing) -->
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+	</ItemGroup>
+
+</Project>
