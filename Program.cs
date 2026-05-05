@@ -263,6 +263,13 @@ using System.Security.Cryptography;
 
 var builder = WebApplication.CreateBuilder(args);
 
+foreach (var source in builder.Configuration.Sources
+    .OfType<Microsoft.Extensions.Configuration.FileConfigurationSource>())
+{
+    source.ReloadOnChange = false;
+    source.ReloadDelay = 0;
+}
+
 // ---------------- MONGODB CONFIG ----------------
 
 // ✅ FIXED: use correct key "MongoSettings"
