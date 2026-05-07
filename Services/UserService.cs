@@ -30,10 +30,10 @@ namespace AIChatBot.Services
             }
 
             var token = _jwt.GenerateToken(user.Id, user.Email);
-            return new AuthResult { Token = token, UserId = user.Id };
+            return new AuthResult { Token = token, UserId = user.Id ,Username=user.Username};
         }
 
-        public async Task RegisterAsync(RegisterModel model)
+        public async Task<User> RegisterAsync(RegisterModel model)
         {
             var existing = await _repo.GetByEmailAsync(model.Email);
             if (existing != null)
@@ -41,7 +41,7 @@ namespace AIChatBot.Services
                 throw new ApplicationException("User already exists");
             }
 
-            var user = new User
+            User user = new User
             {
                 Username = model.Username,
                 Email = model.Email,
@@ -49,6 +49,7 @@ namespace AIChatBot.Services
             };
 
             await _repo.CreateAsync(user);
+            return user;
         }
     }
 }
